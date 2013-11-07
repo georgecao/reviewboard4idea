@@ -10,9 +10,11 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.ui.Messages;
 
 import javax.swing.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ZGong.
@@ -197,7 +199,7 @@ public class ReviewBoardClient {
         addParams(params, "branch", settings.getBranch());
         addParams(params, "bugs_closed", settings.getBugsClosed());
         addParams(params, "description", settings.getDescription());
-        String json = new HttpClient().httpPut(path, params);
+        String json = HttpClient.create(apiUrl, startTime).put(path, params);
         FileIOUtils.fileWrite("path is " + path, "LOG.txt", startTime);
         FileIOUtils.fileWrite("updateDraft() is " + json, "LOG.txt", startTime);
         System.out.println(json);
@@ -213,7 +215,7 @@ public class ReviewBoardClient {
         addParams(params, "target_people", settings.getPeople());
         String json;
         try {
-            json = new HttpClient().httpPut(path, params);
+            json = HttpClient.create(apiUrl, startTime).put(path, params);
         } catch (Exception e) {
             return new DraftResponse("error", "Invalid group or people");
         }
@@ -235,7 +237,7 @@ public class ReviewBoardClient {
             throws Exception {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("repository", repository);
-        String json = new HttpClient().httpPost("review-requests/", params);
+        String json = HttpClient.create(apiUrl, startTime).post("review-requests/", params);
         System.out.println(json);
         FileIOUtils.fileWrite("createNewRequest() is " + json, "LOG.txt",
                 startTime);
@@ -251,7 +253,7 @@ public class ReviewBoardClient {
         params.put("path", new MemoryFile("review.diff", diff));
         FileIOUtils.fileWrite("path is " + path, "LOG.txt", startTime);
         FileIOUtils.fileWrite("basedir is " + basedir, "LOG.txt", startTime);
-        String json = new HttpClient().httpPost(path, params);
+        String json = HttpClient.create(apiUrl, startTime).postWithMultiPart(path, params);
         System.out.println(json);
         FileIOUtils.fileWrite("diff() is " + json, "LOG.txt", startTime);
         Gson gson = new Gson();
@@ -260,7 +262,7 @@ public class ReviewBoardClient {
 
     public DraftResponse getReviewInfoAsDraft(String reviewId) throws Exception {
         String path = String.format("review-requests/%s/draft/", reviewId);
-        String json = new HttpClient().httpGet(path);
+        String json = HttpClient.create(apiUrl, startTime).get(path);
         System.out.println(json);
         FileIOUtils.fileWrite("path is " + path, "LOG.txt", startTime);
         FileIOUtils.fileWrite("getReviewInfoAsDraft() is " + json, "LOG.txt",
@@ -272,7 +274,7 @@ public class ReviewBoardClient {
     public NewReviewResponse getReviewInfoAsPublished(String reviewId)
             throws Exception {
         String path = String.format("review-requests/%s/", reviewId);
-        String json = new HttpClient().httpGet(path);
+        String json = HttpClient.create(apiUrl, startTime).get(path);
         System.out.println(json);
         FileIOUtils.fileWrite("path is " + path, "LOG.txt", startTime);
         FileIOUtils.fileWrite("getReviewInfoAsPublished() is " + json,
@@ -283,7 +285,7 @@ public class ReviewBoardClient {
 
     public RepositoriesResponse getRepositories() throws Exception {
         String path = "repositories/";
-        String json = new HttpClient().httpGet(path);
+        String json = HttpClient.create(apiUrl, startTime).get(path);
         System.out.println(json);
         FileIOUtils.fileWrite("path is " + path, "LOG.txt", startTime);
         FileIOUtils.fileWrite("getRepositories() is " + json, "LOG.txt",
@@ -292,86 +294,7 @@ public class ReviewBoardClient {
         return gson.fromJson(json, RepositoriesResponse.class);
     }
 
-    class HttpClient {
-        public String httpGet(String path) throws Exception {
-            URL url = new URL(apiUrl + path);
-            System.out.println("Http get:" + url);
-            URLConnection urlConnection = url.openConnection();
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    inputStream));
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
-        }
 
-        public String httpRequest(String path, String method,
-                                  Map<String, String> params) throws Exception {
-            URL url = new URL(apiUrl + path);
-            System.out.println("Http " + method + ":" + url);
-            URLConnection urlConnection = url.openConnection();
-            urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(true);
-            HttpURLConnection http = (HttpURLConnection) urlConnection;
-            http.setRequestMethod(method);
-            OutputStream outputStream = urlConnection.getOutputStream();
-            PrintWriter pw = new PrintWriter(outputStream, true);
-            for (String key : params.keySet()) {
-                pw.println(key + "=" + params.get(key));
-            }
-            pw.flush();
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    inputStream));
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
-        }
-
-        public String httpRequestWithMultiplePart(String path, String method,
-                                                  Map<String, Object> params) throws Exception {
-            URL url = new URL(apiUrl + path);
-            System.out.println("Http " + method + ":" + url);
-            FileIOUtils.fileWrite("url is : " + url, "LOG.txt", startTime);
-            URLConnection urlConnection = url.openConnection();
-            urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(true);
-            HttpURLConnection http = (HttpURLConnection) urlConnection;
-            http.setRequestMethod(method);
-            ClientHttpRequest chr = new ClientHttpRequest(http);
-            Set set = params.keySet();
-            Iterator iter = set.iterator();
-            while (iter.hasNext()) {
-                String str = iter.next().toString();
-                FileIOUtils.fileWrite(str, "LOG.txt", startTime);
-            }
-            InputStream inputStream = chr.post(params);
-            StringBuilder sb = new StringBuilder();
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    inputStream));
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
-        }
-
-        public String httpPost(String path, Map<String, Object> params)
-                throws Exception {
-            return httpRequestWithMultiplePart(path, "POST", params);
-        }
-
-        private String httpPut(String path, Map<String, Object> params)
-                throws Exception {
-            return httpRequestWithMultiplePart(path, "PUT", params);
-        }
-    }
 }
 
 class Href {
