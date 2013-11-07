@@ -170,7 +170,7 @@ public class ReviewBoardClient {
                     if (svnPath.startsWith(repo.path)) {
                         settings.setSvnRoot(repo.path);
                         FileIOUtils.fileWrite("repo.path.length() is " + repo.path.length(), "LOG.txt", startTime);
-                        String svnBasePath = svnPath.substring(0, repo.path.length());
+                        String svnBasePath = svnPath.substring(repo.path.length());
                         settings.setSvnBasePath(svnBasePath);
                         FileIOUtils.fileWrite("svnBasePath is " + svnBasePath, "LOG.txt", startTime);
                         FileIOUtils.fileWrite("svnRoot is " + repo.path, "LOG.txt", startTime);
