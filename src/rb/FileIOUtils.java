@@ -10,7 +10,7 @@ public class FileIOUtils {
     public static <T> void fileWrite(T testResult, String fileName, Long start) {
         String startTime = formatNowDate(start);
         String dir = System.getProperty("java.io.tmpdir");
-        fileName = dir + File.pathSeparator + fileName + "_" + startTime + ".txt";
+        fileName = dir + File.separator + fileName + "." + startTime;
         try {
             File file = new File(fileName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
@@ -24,7 +24,7 @@ public class FileIOUtils {
 
     public static String formatNowDate(Long time) {
         Date nowTime = new Date(time);
-        SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd hh-mm");
+        SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyyMMdd");
         String retStrFormatNowDate = sdFormatter.format(nowTime);
         return retStrFormatNowDate;
     }

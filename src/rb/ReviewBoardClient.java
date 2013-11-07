@@ -31,7 +31,7 @@ public class ReviewBoardClient {
                 return new PasswordAuthentication(username, password.toCharArray());
             }
         }
-        FileIOUtils.fileWrite("apiUrl" + apiUrl, "LOG.txt", startTime);
+        FileIOUtils.fileWrite("apiUrl:" + apiUrl, "LOG.txt", startTime);
         Authenticator.setDefault(new MyAuthenticator());
     }
 
@@ -163,27 +163,17 @@ public class ReviewBoardClient {
                     + repositoriesResponse.repositories.length, "LOG.txt",
                     startTime);
             if (repositoriesResponse.isOk()) {
-                String svnPath = settings.getSvnRoot()
-                        + settings.getSvnBasePath();
-                FileIOUtils.fileWrite("svnPath is " + svnPath, "LOG.txt",
-                        startTime);
+                String svnPath = settings.getSvnRoot() + settings.getSvnBasePath();
+                FileIOUtils.fileWrite("svnPath is " + svnPath, "LOG.txt", startTime);
                 for (Repository repo : repositoriesResponse.repositories) {
-                    FileIOUtils.fileWrite("svnPath is " + svnPath, "LOG.txt",
-                            startTime);
-                    FileIOUtils.fileWrite("repo.path is " + repo.path, "LOG.txt",
-                            startTime);
+                    FileIOUtils.fileWrite("repo.path is " + repo.path, "LOG.txt", startTime);
                     if (svnPath.startsWith(repo.path)) {
                         settings.setSvnRoot(repo.path);
-                        FileIOUtils.fileWrite("repo.path.length() is " + repo.path
-                                .length(),
-                                "LOG.txt", startTime);
-                        String svnBasePath = svnPath.substring(0, repo.path
-                                .length());
+                        FileIOUtils.fileWrite("repo.path.length() is " + repo.path.length(), "LOG.txt", startTime);
+                        String svnBasePath = svnPath.substring(0, repo.path.length());
                         settings.setSvnBasePath(svnBasePath);
-                        FileIOUtils.fileWrite("svnBasePath is " + svnBasePath,
-                                "LOG.txt", startTime);
-                        FileIOUtils.fileWrite("svnRoot is " + repo.path,
-                                "LOG.txt", startTime);
+                        FileIOUtils.fileWrite("svnBasePath is " + svnBasePath, "LOG.txt", startTime);
+                        FileIOUtils.fileWrite("svnRoot is " + repo.path, "LOG.txt", startTime);
                         return true;
                     }
                 }
