@@ -5,7 +5,8 @@
     <vendor>YourCompany</vendor>
     <description><![CDATA[
       Diff based Reviewboard plugin.
-      ]]></description>
+      ]]>
+    </description>
 
     <change-notes><![CDATA[
       Finally it works.
