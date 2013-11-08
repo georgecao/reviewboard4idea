@@ -19,14 +19,12 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.qiyi.reviewboard.ReviewSettings;
 import com.qiyi.reviewboard.client.ReviewBoardClient;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.idea.svn.SvnUtil;
 import org.jetbrains.idea.svn.SvnVcs;
 import org.tmatesoft.svn.core.SVNURL;
-import rb.PrePostReviewForm;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -36,8 +34,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class PostReviewAction extends AnAction {
-
-
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
@@ -162,17 +158,14 @@ public class PostReviewAction extends AnAction {
         }
 
         if (localRootDir == null) {
-
             Messages.showErrorDialog("No base path", null);
             return;
         }
         if (repositoryUrl == null) {
-
             Messages.showErrorDialog("No repository Url", null);
             return;
         }
         if (remoteRootUrl == null) {
-
             Messages.showErrorDialog("No remoteRootUrl Url", null);
             return;
         }
@@ -186,7 +179,6 @@ public class PostReviewAction extends AnAction {
         try {
             List<FilePatch> filePatches = buildPatch(project, changes, localRootDir, false);
             if (filePatches == null) {
-
                 Messages.showWarningDialog("Create diff error", "Alter");
                 return;
             }
@@ -195,14 +187,12 @@ public class PostReviewAction extends AnAction {
             w.close();
             patch = w.toString();
         } catch (Exception e) {
-
             Messages.showWarningDialog("Svn is still in refresh. Please try again later.", "Alter");
             return;
         }
 
         final String finalRepositoryUrl = repositoryUrl;
         final PrePostReviewForm prePostReviewForm = new PrePostReviewForm(project, changeMessage, patch) {
-
             @Override
             protected void doOKAction() {
                 if (!isOKActionEnabled()) {
@@ -210,17 +200,14 @@ public class PostReviewAction extends AnAction {
                 }
                 final ReviewSettings setting = this.getSetting();
                 if (setting.getServer() == null || "".equals(setting.getServer())) {
-
                     Messages.showMessageDialog(project, "Please set the review board server address in config panel", "Info", null);
                     return;
                 }
                 if (setting.getUsername() == null || "".equals(setting.getUsername())) {
-
                     Messages.showMessageDialog(project, "Please set the review board user name in config panel", "Info", null);
                     return;
                 }
                 if (setting.getPassword() == null || "".equals(setting.getPassword())) {
-
                     Messages.showMessageDialog(project, "Please set the view board password in config panel", "Info", null);
                     return;
                 }
@@ -273,8 +260,6 @@ public class PostReviewAction extends AnAction {
     }
 
     private List<FilePatch> buildPatch(Project project, List<Change> changes, String localRootDir, boolean b) {
-        //      List<FilePatch> filePatches = IdeaTextPatchBuilder.buildPatch(project, changes, localRootDir, false);
-//    List<FilePatch> filePatches = TextPatchBuilder.buildPatch(changes, localRootDir, false);
         Object result = null;
         try {//invoke the api in 10.x
             Class c = Class.forName("com.intellij.openapi.diff.impl.patch.IdeaTextPatchBuilder");

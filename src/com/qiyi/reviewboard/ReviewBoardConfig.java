@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rb.ReviewBoardConfigForm;
 
 import javax.swing.*;
 
@@ -19,7 +18,6 @@ public class ReviewBoardConfig implements ProjectComponent, Configurable {
     private static final String RB__SERVER = "rb_server";
     private static final String RB__USERNAME = "rb_username";
     private static final String RB__ENCODED_PASSWORD = "rb_encodedPassword";
-
     private ReviewBoardConfigForm form;
     private String server;
     private String username;
@@ -101,7 +99,6 @@ public class ReviewBoardConfig implements ProjectComponent, Configurable {
         this.server = server;
     }
 
-
     public String getUsername() {
         return username;
     }
@@ -120,11 +117,9 @@ public class ReviewBoardConfig implements ProjectComponent, Configurable {
 
     @Override
     public void projectOpened() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void projectClosed() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
