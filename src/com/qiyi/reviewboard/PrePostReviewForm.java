@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.TextFieldWithStoredHistory;
+import com.intellij.ui.components.JBScrollPane;
 import com.qiyi.reviewboard.client.ReviewBoardClient;
 import com.qiyi.reviewboard.security.PasswordMangler;
 
@@ -65,7 +66,7 @@ public class PrePostReviewForm extends DialogWrapper {
                 dialog.setTitle("Diff");
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 diffTextArea = new JTextArea(patch);
-                JScrollPane sp = new JScrollPane(diffTextArea);
+                JScrollPane sp = new JBScrollPane(diffTextArea);
                 dialog.add(sp);
                 dialog.setSize(800, 600);
                 dialog.setLocationRelativeTo(PrePostReviewForm.this.getPreviewComponent());
