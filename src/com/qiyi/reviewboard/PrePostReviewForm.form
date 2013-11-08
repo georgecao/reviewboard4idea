@@ -64,7 +64,9 @@
             <preferred-size width="214" height="21"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <toolTipText value="comma reviewers"/>
+        </properties>
       </component>
       <scrollpane id="5f9ce">
         <constraints>
@@ -76,6 +78,8 @@
           <component id="4c180" class="javax.swing.JTextArea" binding="descTextArea">
             <constraints/>
             <properties>
+              <columns value="3"/>
+              <lineWrap value="true"/>
               <rows value="5"/>
               <text value=""/>
             </properties>
@@ -137,14 +141,6 @@
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
-      <component id="5c614" class="javax.swing.JButton" binding="showDiffButton" default-binding="true">
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Show diff"/>
-        </properties>
-      </component>
       <vspacer id="c8591">
         <constraints>
           <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="5" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -181,6 +177,14 @@
           </grid>
         </constraints>
         <properties/>
+      </component>
+      <component id="5c614" class="javax.swing.JButton" binding="showDiffButton" default-binding="true">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Show diff"/>
+        </properties>
       </component>
     </children>
   </grid>

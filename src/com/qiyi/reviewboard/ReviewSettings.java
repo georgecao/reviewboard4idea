@@ -1,22 +1,18 @@
 package com.qiyi.reviewboard;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Gong Zeng
- * Date: 5/13/11
- * Time: 11:28 AM
- */
 public class ReviewSettings {
     private String server;
     private String username;
     private String password;
     private String summary;
     private String description;
+    private String changeDescription;
     private String branch;
     private String bugsClosed;
+    private boolean testingDone;
     private String group;
     private String people;
-    private String reviewId;
+    private Long reviewId;
     private String svnRoot;
     private String svnBasePath;
     private String diff;
@@ -33,12 +29,12 @@ public class ReviewSettings {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -49,55 +45,55 @@ public class ReviewSettings {
         return summary;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public String getBugsClosed() {
-        return bugsClosed;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public String getPeople() {
-        return people;
-    }
-
-    public String getReviewId() {
-        return reviewId;
-    }
-
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getBranch() {
+        return branch;
+    }
+
     public void setBranch(String branch) {
         this.branch = branch;
+    }
+
+    public String getBugsClosed() {
+        return bugsClosed;
     }
 
     public void setBugsClosed(String bugsClosed) {
         this.bugsClosed = bugsClosed;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getPeople() {
+        return people;
     }
 
     public void setPeople(String people) {
         this.people = people;
     }
 
-    public void setReviewId(String reviewId) {
+    public Long getReviewId() {
+        return reviewId;
+    }
+
+    public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
 
@@ -105,12 +101,12 @@ public class ReviewSettings {
         return svnRoot;
     }
 
-    public String getSvnBasePath() {
-        return svnBasePath;
-    }
-
     public void setSvnRoot(String svnRoot) {
         this.svnRoot = svnRoot;
+    }
+
+    public String getSvnBasePath() {
+        return svnBasePath;
     }
 
     public void setSvnBasePath(String svnBasePath) {
@@ -123,5 +119,21 @@ public class ReviewSettings {
 
     public void setDiff(String diff) {
         this.diff = diff;
+    }
+
+    public boolean isTestingDone() {
+        return testingDone;
+    }
+
+    public void setTestingDone(boolean testingDone) {
+        this.testingDone = testingDone;
+    }
+
+    public String getChangeDescription() {
+        return changeDescription;
+    }
+
+    public void setChangeDescription(String changeDescription) {
+        this.changeDescription = changeDescription;
     }
 }

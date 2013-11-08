@@ -33,14 +33,14 @@ public class ReviewBoardClient {
         ReviewBoardClient reviewBoardClient
                 = new ReviewBoardClient(settings.getServer(), settings.getUsername(), settings.getPassword());
         try {
-            String reviewId = settings.getReviewId();
-            if (Strings.isNullOrEmpty(reviewId)) {
+            Long reviewId = settings.getReviewId();
+            if (null == reviewId || reviewId <= 0) {
                 progressIndicator.setText("Creating review draft...");
                 Repository repo = reviewBoardClient.findThenRefresh(settings);
-                ReviewRequest newRequest = reviewBoardClient.createReviewRequest(repo);
-                progressIndicator.setText("Create new request:" + newRequest.getId());
-                reviewId = String.valueOf(newRequest.getId());
-                settings.setReviewId(reviewId);
+                ReviewRequest reviewRequest = reviewBoardClient.createReviewRequest(repo);
+                progressIndicator.setText("Create new request:" + reviewRequest.getId());
+                settings.setReviewId(reviewRequest.getId());
+                reviewId = reviewRequest.getId();
             }
             progressIndicator.setText("Updating draft...");
             final DraftResponse response = reviewBoardClient.updateDraft(reviewId, settings);
@@ -152,23 +152,25 @@ public class ReviewBoardClient {
         return false;
     }
 
-    public DraftResponse updateDraft(String reviewId, ReviewSettings settings) throws IOException {
-        String path = url(String.format("review-requests/%s/draft/", reviewId));
+    public DraftResponse updateDraft(Long reviewId, ReviewSettings settings) throws IOException {
+        String url = url(String.format("review-requests/%d/draft/", reviewId));
         Map<String, Object> params = new HashMap<String, Object>();
         addParams(params, "summary", settings.getSummary());
         addParams(params, "branch", settings.getBranch());
         addParams(params, "bugs_closed", settings.getBugsClosed());
         addParams(params, "description", settings.getDescription());
+        addParams(params, "changedescription", settings.getChangeDescription());
         addParams(params, "target_groups", settings.getGroup());
         addParams(params, "target_people", settings.getPeople());
-        return HttpClient.put(path, params, DraftResponse.class);
+        addParams(params, "testing_done", String.valueOf(settings.isTestingDone()));
+        return HttpClient.put(url, params, DraftResponse.class);
     }
 
-    public DraftResponse publish(String reviewId) throws IOException {
-        String path = url(String.format("review-requests/%s/draft/", reviewId));
+    public DraftResponse publish(Long reviewId) throws IOException {
+        String url = url(String.format("review-requests/%d/draft/", reviewId));
         Map<String, Object> params = new HashMap<String, Object>(1);
         addParams(params, "public", "true");
-        return HttpClient.put(path, params, DraftResponse.class);
+        return HttpClient.put(url, params, DraftResponse.class);
     }
 
     private void addParams(Map<String, Object> params, String key, String value) {
@@ -189,18 +191,18 @@ public class ReviewBoardClient {
         return null == response ? null : response.getReviewRequest();
     }
 
-    public UploadDiffResponse uploadDiff(String reviewId, String basedir, String diff) throws IOException {
-        String path = url(String.format("review-requests/%s/diffs/", reviewId));
+    public UploadDiffResponse uploadDiff(Long reviewId, String basedir, String diff) throws IOException {
+        String url = url(String.format("review-requests/%d/diffs/", reviewId));
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("basedir", basedir);
         params.put("path", new MemoryFile("review.diff", diff));
-        UploadDiffResponse response = HttpClient.postWithMultiPart(path, params, UploadDiffResponse.class);
+        UploadDiffResponse response = HttpClient.postWithMultiPart(url, params, UploadDiffResponse.class);
         return response;
     }
 
     public DraftResponse getReviewInfoAsDraft(String reviewId) throws Exception {
-        String path = url(String.format("review-requests/%s/draft/", reviewId));
-        return HttpClient.get(path, DraftResponse.class);
+        String url = url(String.format("review-requests/%s/draft/", reviewId));
+        return HttpClient.get(url, DraftResponse.class);
     }
 
     private String url(String path) {
@@ -208,12 +210,12 @@ public class ReviewBoardClient {
     }
 
     public ReviewRequestResponse getReviewInfoAsPublished(String reviewId) throws IOException {
-        String path = url(String.format("review-requests/%s/", reviewId));
-        return HttpClient.get(path, ReviewRequestResponse.class);
+        String url = url(String.format("review-requests/%s/", reviewId));
+        return HttpClient.get(url, ReviewRequestResponse.class);
     }
 
     public RepositoryResponse getRepositories() throws IOException {
-        String path = url("repositories/");
-        return HttpClient.get(path, RepositoryResponse.class);
+        String url = url("repositories/");
+        return HttpClient.get(url, RepositoryResponse.class);
     }
 }

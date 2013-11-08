@@ -140,7 +140,7 @@ public class PrePostReviewForm extends DialogWrapper {
 
         //from ui
         if (reviewIdTextField.isEnabled()) {
-            settings.setReviewId(reviewIdTextField.getText());
+            settings.setReviewId(Long.valueOf(reviewIdTextField.getText().trim()));
         }
         settings.setSummary(summaryTextField.getText());
         settings.setBranch(branchTextField.getText());
@@ -159,17 +159,6 @@ public class PrePostReviewForm extends DialogWrapper {
 
     private void createUIComponents() {
         peopleTextField = new TextFieldWithStoredHistory("rb.people");
-
-//        peopleTextField.addKeyboardListener(new KeyAdapter() {
-//            @Override
-//            public void keyTyped(KeyEvent e) {
-//                System.out.println(e);
-//                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-//                    peopleTextField.setSelectedIndex(-1);
-////                    peopleTextField
-//                }
-//            }
-//        });
         groupTextField = new TextFieldWithStoredHistory("rb.group");
     }
 }
