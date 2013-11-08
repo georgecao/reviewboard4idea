@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * @author Pragalathan M
+ * @author George
  */
 public class Diff {
     private Date timestamp;

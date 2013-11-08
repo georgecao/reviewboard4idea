@@ -6,7 +6,7 @@ package com.qiyi.reviewboard.entity;
 import java.util.Map;
 
 /**
- * @author Pragalathan M
+ * @author George
  */
 public class Repository {
     private String path;

@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * Created by IntelliJ IDEA.
+ * Used for diff file.
  * User: Gong Zeng
  * Date: 5/16/11
  * Time: 12:12 PM

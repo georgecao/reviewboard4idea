@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Pragalathan M
+ * @author George
  */
 public class RepositoryResponse extends ReviewBoardResponse {
     @SerializedName("total_results")

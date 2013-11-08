@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  *
- * @author Pragalathan M
+ * @author George
  */
 public class Session {
 

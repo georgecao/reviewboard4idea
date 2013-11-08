@@ -10,15 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Pragalathan M
+ * @author George
  */
 public class ReviewRequest {
-
     private String status;
     @SerializedName("last_updated")
     private Date lastUpdated;
-    @SerializedName("changedescription")
     private String description;
+    @SerializedName("changedescription")
     private String changeDescription;
     private boolean published;
     @SerializedName("target_groups")

@@ -6,7 +6,7 @@ package com.qiyi.reviewboard.entity;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author Pragalathan M
+ * @author George
  */
 public class ReviewRequestResponse extends ReviewBoardResponse {
     @SerializedName("review_request")

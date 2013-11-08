@@ -4,8 +4,7 @@
 package com.qiyi.reviewboard.entity;
 
 /**
- *
- * @author Pragalathan M
+ * @author George
  */
 public class LoginResponse extends ReviewBoardResponse {
 
