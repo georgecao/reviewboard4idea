@@ -5,7 +5,6 @@ package com.qiyi.reviewboard.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 public class ReviewRequest {
     private String status;
     @SerializedName("last_updated")
-    private Date lastUpdated;
+    private String lastUpdated;
     private String description;
     @SerializedName("changedescription")
     private String changeDescription;
@@ -32,7 +31,7 @@ public class ReviewRequest {
     private String testingDone;
     private String branch;
     @SerializedName("time_added")
-    private Date timeAdded;
+    private String timeAdded;
     private String summary;
     private Long id;
     private Map<String, Link> links;
@@ -51,14 +50,6 @@ public class ReviewRequest {
 
     public void setChangeDescription(String changeDescription) {
         this.changeDescription = changeDescription;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
     }
 
     public Map<String, Link> getLinks() {
@@ -149,11 +140,19 @@ public class ReviewRequest {
         this.testingDone = testingDone;
     }
 
-    public Date getTimeAdded() {
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public String getTimeAdded() {
         return timeAdded;
     }
 
-    public void setTimeAdded(Date timeAdded) {
+    public void setTimeAdded(String timeAdded) {
         this.timeAdded = timeAdded;
     }
 }

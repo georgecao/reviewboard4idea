@@ -3,14 +3,13 @@
  */
 package com.qiyi.reviewboard.entity;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
  * @author George
  */
 public class Diff {
-    private Date timestamp;
+    private String timestamp;
     private String name;
     private Long id;
     private Long revision;
@@ -48,11 +47,11 @@ public class Diff {
         this.revision = revision;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }
