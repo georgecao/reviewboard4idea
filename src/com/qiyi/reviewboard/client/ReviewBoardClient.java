@@ -1,12 +1,12 @@
 package com.qiyi.reviewboard.client;
 
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.ui.Messages;
+import com.qiyi.reviewboard.ReviewSettings;
 import com.qiyi.reviewboard.entity.*;
 import com.qiyi.reviewboard.http.HttpClient;
-import com.qiyi.reviewboard.entity.MemoryFile;
-import com.qiyi.reviewboard.ReviewSettings;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -91,9 +91,24 @@ public class ReviewBoardClient {
         if (reviewRequest != null) {
             settings.setBranch(reviewRequest.getBranch());
             settings.setDescription(reviewRequest.getDescription());
-            // settings.setBugsClosed(reviewRequest.getBugs());
-            // settings.setPeople(reviewRequest.getPeople());
-            // settings.setGroup(reviewRequest.getGroups());
+            settings.setBugsClosed(ParamUtils.join(reviewRequest.getBugs(), new Function<Bug, String>() {
+                @Override
+                public String apply(Bug bug) {
+                    return bug.getText();
+                }
+            }));
+            settings.setPeople(ParamUtils.join(reviewRequest.getPeople(), new Function<People, String>() {
+                @Override
+                public String apply(People people) {
+                    return people.getTitle();
+                }
+            }));
+            settings.setGroup(ParamUtils.join(reviewRequest.getGroups(), new Function<Group, String>() {
+                @Override
+                public String apply(Group group) {
+                    return group.getTitle();
+                }
+            }));
         } else {
             Messages.showErrorDialog("No such review id:" + reviewId, "Error");
         }
