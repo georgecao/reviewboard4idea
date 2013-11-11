@@ -18,12 +18,12 @@
     <depends>Subversion</depends>
     <project-components>
         <component>
-            <implementation-class>com.plugin.reviewboard.ReviewBoardConfig</implementation-class>
+            <implementation-class>com.intellij.plugin.reviewboard.ReviewBoardConfig</implementation-class>
         </component>
     </project-components>
 
     <actions>
-        <action id="PostReview" class="com.plugin.reviewboard.PostReviewAction" text="PostReview"
+        <action id="PostReview" class="com.intellij.plugin.reviewboard.PostReviewAction" text="PostReview"
                 description="Post Review">
             <add-to-group group-id="ChangesViewPopupMenu" anchor="last" relative-to-action=""/>
         </action>
