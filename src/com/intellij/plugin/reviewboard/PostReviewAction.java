@@ -108,7 +108,8 @@ public class PostReviewAction extends AnAction {
         for (VirtualFile vf : vFiles) {
             if (vf != null) {
                 vf.refresh(false, true);
-                File workingCopyRoot = SvnUtil.getWorkingCopyRoot(new File(vf.getPath()));
+                // Support SVN 1.8
+                File workingCopyRoot = SvnUtil.getWorkingCopyRootNew(new File(vf.getPath()));
 
                 if (localRootDir == null && workingCopyRoot != null) {
                     localRootDir = workingCopyRoot.getPath();

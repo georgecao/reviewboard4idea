@@ -1,8 +1,8 @@
 <idea-plugin version="2">
     <id>reviewboard4idea</id>
     <name>Reviewboard for Idea</name>
-    <version>1.0</version>
-    <vendor>YourCompany</vendor>
+    <version>1.1</version>
+    <vendor>George</vendor>
     <description><![CDATA[
       Diff based Reviewboard plugin.
       ]]>
@@ -23,7 +23,7 @@
     </project-components>
 
     <actions>
-        <action id="PostReview" class="com.intellij.plugin.reviewboard.PostReviewAction" text="PostReview"
+        <action id="PostReview" class="com.intellij.plugin.reviewboard.PostReviewAction" text="Post Review"
                 description="Post Review">
             <add-to-group group-id="ChangesViewPopupMenu" anchor="last" relative-to-action=""/>
         </action>
